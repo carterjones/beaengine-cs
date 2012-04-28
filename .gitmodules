@@ -1,0 +1,3 @@
+[submodule "plugins/beaengine"]
+	path = plugins/beaengine
+	url = git://github.com/carterjones/beaengine-fork.git
