@@ -11,6 +11,11 @@ namespace BeaEngineCS
 
     public class BeaEngine
     {
+#if WIN64
+        const string DllName = "BeaEngine-64.dll";
+#else
+        const string DllName = "BeaEngine-32.dll";
+#endif
         [Flags]
         public enum InstructionSet
         {
@@ -364,11 +369,7 @@ namespace BeaEngineCS
             public Int32 OutOfBlock;
         }
 
-#if WIN64
-        [DllImport("BeaEngine-64.dll")]
-#else
-        [DllImport("BeaEngine-32.dll")]
-#endif
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Disasm(ref _Disasm instruction);
     }
 }
