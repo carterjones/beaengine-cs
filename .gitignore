@@ -8,5 +8,6 @@
 !*.vcxproj
 !BeaEngineCS
 !Tests
+!plugins
 !plugins/beaengine
 !UNLICENSE
