@@ -4,18 +4,48 @@ namespace BeaEngineCS
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Runtime.InteropServices;
+    using System.Text;
 
     using UInt8 = System.Byte;
 
+    /// <summary>
+    /// A simple C# interface to the BeaEngine library.
+    /// </summary>
     public class BeaEngine
     {
+        #region Constants
+
+        public const byte ESReg = 1;
+        public const byte DSReg = 2;
+        public const byte FSReg = 3;
+        public const byte GSReg = 4;
+        public const byte CSReg = 5;
+        public const byte SSReg = 6;
+
+        public const byte InvalidPrefix = 4;
+        public const byte SuperfluousPrefix = 2;
+        public const byte NotUsedPrefix = 0;
+        public const byte MandatoryPrefix = 8;
+        public const byte InUsePrefix = 1;
+
+        public const byte LowPosition = 0;
+        public const byte HighPosition = 1;
+
+        public const int UnknownOpcode = -1;
+        public const int OutOfRange = 0;
+        public const int InstructionLength = 64;
+
 #if WIN64
-        const string DllName = "BeaEngine-64.dll";
+        private const string DllName = "BeaEngine-64.dll";
 #else
-        const string DllName = "BeaEngine-32.dll";
+        private const string DllName = "BeaEngine-32.dll";
 #endif
+
+        #endregion
+
+        #region Enumerations
+
         [Flags]
         public enum InstructionSet
         {
@@ -34,7 +64,7 @@ namespace BeaEngineCS
             AMD_INSTRUCTION = 0x10000000,
             ILLEGAL_INSTRUCTION = 0x20000000,
             AES_INSTRUCTION = 0x40000000,
-            CLMUL_INSTRUCTION = unchecked ((int)0x80000000),
+            CLMUL_INSTRUCTION = unchecked((int)0x80000000),
         }
 
         public enum InstructionType
@@ -191,25 +221,42 @@ namespace BeaEngineCS
             ShowSegmentRegs = 0x01000000
         }
 
-        public const byte ESReg = 1;
-        public const byte DSReg = 2;
-        public const byte FSReg = 3;
-        public const byte GSReg = 4;
-        public const byte CSReg = 5;
-        public const byte SSReg = 6;
+        #endregion
 
-        public const byte InvalidPrefix = 4;
-        public const byte SuperfluousPrefix = 2;
-        public const byte NotUsedPrefix = 0;
-        public const byte MandatoryPrefix = 8;
-        public const byte InUsePrefix = 1;
+        #region Properties
 
-        public const byte LowPosition = 0;
-        public const byte HighPosition = 1;
+        public static string Version
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineVersion());
+            }
+        }
 
-        public const int UnknownOpcode = -1;
-        public const int OutOfRange = 0;
-        public const int InstructionLength = 64;
+        public static string Revision
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineRevision());
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Disasm(ref _Disasm instruction);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BeaEngineVersion();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BeaEngineRevision();
+
+        #endregion
+
+        #region Structures
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _Disasm
@@ -226,7 +273,7 @@ namespace BeaEngineCS
             public ARGTYPE Argument2;
             public ARGTYPE Argument3;
             public PREFIXINFO Prefix;
-            public InternalDatas Reserved_;
+            private InternalDatas reserved;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -241,10 +288,12 @@ namespace BeaEngineCS
             public UInt64 AddrValue;
             public Int64 Immediat;
             public UInt32 ImplicitModifiedRegs;
+
             public InstructionSet InstructionSet
             {
                 get { return (InstructionSet)(0xffff0000 & this.Category); }
             }
+
             public InstructionType InstructionType
             {
                 get { return (InstructionType)(0x0000ffff & this.Category); }
@@ -265,7 +314,7 @@ namespace BeaEngineCS
             public UInt8 DF_;
             public UInt8 NT_;
             public UInt8 RF_;
-            public UInt8 alignment;
+            public UInt8 Alignment;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -296,7 +345,7 @@ namespace BeaEngineCS
             public UInt8 R_;
             public UInt8 X_;
             public UInt8 B_;
-            public UInt8 state;
+            public UInt8 State;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -310,10 +359,12 @@ namespace BeaEngineCS
             public AccessMode AccessMode;
             public MEMORYTYPE Memory;
             public UInt32 SegmentReg;
+
             public ArgumentDetails Details
             {
                 get { return (ArgumentDetails)(0xffff0000 & this.ArgType); }
             }
+
             public RegisterId RegisterId
             {
                 get { return (RegisterId)(0x0000ffff & this.ArgType); }
@@ -330,68 +381,45 @@ namespace BeaEngineCS
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct InternalDatas
+        private struct InternalDatas
         {
-            public UIntPtr EIP_;
-            public UInt64 EIP_VA;
-            public UIntPtr EIP_REAL;
-            public Int32 OriginalOperandSize;
-            public Int32 OperandSize;
-            public Int32 MemDecoration;
-            public Int32 AddressSize;
-            public Int32 MOD_;
-            public Int32 RM_;
-            public Int32 INDEX_;
-            public Int32 SCALE_;
-            public Int32 BASE_;
-            public Int32 MMX_;
-            public Int32 SSE_;
-            public Int32 CR_;
-            public Int32 DR_;
-            public Int32 SEG_;
-            public Int32 REGOPCODE;
-            public UInt32 DECALAGE_EIP;
-            public Int32 FORMATNUMBER;
-            public Int32 SYNTAX_;
-            public UInt64 EndOfBlock;
-            public Int32 RelativeAddress;
-            public UInt32 Architecture;
-            public Int32 ImmediatSize;
-            public Int32 NB_PREFIX;
-            public Int32 PrefRepe;
-            public Int32 PrefRepne;
-            public UInt32 SEGMENTREGS;
-            public UInt32 SEGMENTFS;
-            public Int32 third_arg;
-            public Int32 TAB_;
-            public Int32 ERROR_OPCODE;
-            public REX_Struct REX;
-            public Int32 OutOfBlock;
+            private UIntPtr EIP_;
+            private UInt64 EIP_VA;
+            private UIntPtr EIP_REAL;
+            private Int32 OriginalOperandSize;
+            private Int32 OperandSize;
+            private Int32 MemDecoration;
+            private Int32 AddressSize;
+            private Int32 MOD_;
+            private Int32 RM_;
+            private Int32 INDEX_;
+            private Int32 SCALE_;
+            private Int32 BASE_;
+            private Int32 MMX_;
+            private Int32 SSE_;
+            private Int32 CR_;
+            private Int32 DR_;
+            private Int32 SEG_;
+            private Int32 REGOPCODE;
+            private UInt32 DECALAGE_EIP;
+            private Int32 FORMATNUMBER;
+            private Int32 SYNTAX_;
+            private UInt64 EndOfBlock;
+            private Int32 RelativeAddress;
+            private UInt32 Architecture;
+            private Int32 ImmediatSize;
+            private Int32 NB_PREFIX;
+            private Int32 PrefRepe;
+            private Int32 PrefRepne;
+            private UInt32 SEGMENTREGS;
+            private UInt32 SEGMENTFS;
+            private Int32 third_arg;
+            private Int32 TAB_;
+            private Int32 ERROR_OPCODE;
+            private REX_Struct REX;
+            private Int32 OutOfBlock;
         }
 
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Disasm(ref _Disasm instruction);
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr BeaEngineVersion();
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr BeaEngineRevision();
-
-        public static string Version
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineVersion());
-            }
-        }
-
-        public static string Revision
-        {
-            get
-            {
-                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineRevision());
-            }
-        }
+        #endregion
     }
 }
