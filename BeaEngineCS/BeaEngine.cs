@@ -371,5 +371,27 @@ namespace BeaEngineCS
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Disasm(ref _Disasm instruction);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BeaEngineVersion();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BeaEngineRevision();
+
+        public static string Version
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineVersion());
+            }
+        }
+
+        public static string Revision
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(BeaEngine.BeaEngineRevision());
+            }
+        }
     }
 }
