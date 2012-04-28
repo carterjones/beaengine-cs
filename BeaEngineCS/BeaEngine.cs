@@ -217,8 +217,8 @@ namespace BeaEngineCS
             public UIntPtr EIP;
             public UInt64 VirtualAddr;
             public UInt32 SecurityBlock;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = InstructionLength)]
-            public char[] CompleteInstr;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = InstructionLength)]
+            public string CompleteInstr;
             public UInt32 Archi;
             public SpecialInfo Options;
             public INSTRTYPE Instruction;
@@ -234,8 +234,8 @@ namespace BeaEngineCS
         {
             public Int32 Category;
             public Int32 Opcode;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-            public char[] Mnemonic;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+            public string Mnemonic;
             public Int32 BranchType;
             public EFLStruct Flags;
             public UInt64 AddrValue;
@@ -302,8 +302,8 @@ namespace BeaEngineCS
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct ARGTYPE
         {
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-            public char[] ArgMnemonic;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            public string ArgMnemonic;
             public Int32 ArgType;
             public Int32 ArgSize;
             public Int32 ArgPosition;
