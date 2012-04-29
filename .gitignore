@@ -1,0 +1,9 @@
+*
+!.gitignore
+!*.cs
+!*.sln
+!*.csproj
+!Bunseki
+!plugins
+!plugins/beaengine-cs
+!UNLICENSE
