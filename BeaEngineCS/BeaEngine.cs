@@ -221,6 +221,12 @@ namespace BeaEngineCS
             ShowSegmentRegs = 0x01000000
         }
 
+        public enum Architecture : uint
+        {
+            x86_32 = 0,
+            x86_64 = 64
+        }
+
         #endregion
 
         #region Properties
@@ -266,7 +272,7 @@ namespace BeaEngineCS
             public UInt32 SecurityBlock;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = InstructionLength)]
             public string CompleteInstr;
-            public UInt32 Archi;
+            public Architecture Architecture;
             public SpecialInfo Options;
             public INSTRTYPE Instruction;
             public ARGTYPE Argument1;
