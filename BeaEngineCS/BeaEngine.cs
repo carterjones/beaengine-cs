@@ -294,7 +294,7 @@ namespace BeaEngineCS
                     d.VirtualAddr = d.VirtualAddr + (ulong)d.Length;
                     if (d.InstructionPointer.ToUInt64() >= EndCodeSection)
                     {
-                        Console.WriteLine("End of buffer reache.!");
+                        Console.WriteLine("End of buffer reached.");
                         error = true;
                     }
                 }
