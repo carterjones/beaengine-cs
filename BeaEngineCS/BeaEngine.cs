@@ -330,6 +330,10 @@ namespace BeaEngineCS
             public ARGTYPE Argument3;
             public PREFIXINFO Prefix;
             private InternalDatas reserved;
+            /// <summary>
+            /// A place to optionally store the length of an instruction.
+            /// </summary>
+            public int Length { get; set; }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
