@@ -63,8 +63,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)plugins\beaengine\$(ConfigurationName)\BeaEngine-32.dll $(TargetDir)BeaEngine-32.dll
-copy $(SolutionDir)plugins\beaengine\$(ConfigurationName)\BeaEngine-64.dll $(TargetDir)BeaEngine-64.dll</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
