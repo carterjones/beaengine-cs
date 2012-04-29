@@ -267,13 +267,13 @@ namespace BeaEngineCS
 
             List<_Disasm> instructions = new List<_Disasm>();
             _Disasm d = new _Disasm();
-            d.IP = (UIntPtr)h.AddrOfPinnedObject().ToInt64();
+            d.InstructionPointer = (UIntPtr)h.AddrOfPinnedObject().ToInt64();
             d.VirtualAddr = address.ToUInt64();
             d.Architecture = architecture;
             bool error = false;
             while (!error)
             {
-                d.SecurityBlock = (uint)(EndCodeSection - d.IP.ToUInt64());
+                d.SecurityBlock = (uint)(EndCodeSection - d.InstructionPointer.ToUInt64());
 
                 d.Length = BeaEngine.Disassemble(ref d);
                 if (len == BeaEngine.OutOfBlock)
@@ -291,9 +291,9 @@ namespace BeaEngineCS
                 else
                 {
                     instructions.Add(d);
-                    d.IP = d.IP + len;
+                    d.InstructionPointer = d.InstructionPointer + len;
                     d.VirtualAddr = d.VirtualAddr + (ulong)len;
-                    if (d.IP.ToUInt64() >= EndCodeSection)
+                    if (d.InstructionPointer.ToUInt64() >= EndCodeSection)
                     {
                         Console.WriteLine("End of buffer reache.!");
                         error = true;
@@ -317,7 +317,7 @@ namespace BeaEngineCS
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _Disasm
         {
-            public UIntPtr EIP;
+            public UIntPtr InstructionPointer;
             public UInt64 VirtualAddr;
             public UInt32 SecurityBlock;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = InstructionLength)]
