@@ -261,7 +261,6 @@ namespace BeaEngineCS
 
         public static List<_Disasm> Disassemble(ref byte[] data, UIntPtr address, Architecture architecture)
         {
-            int len = 0;
             GCHandle h = GCHandle.Alloc(data, GCHandleType.Pinned);
             UInt64 EndCodeSection = (UInt64)h.AddrOfPinnedObject().ToInt64() + (ulong)data.Length;
 
@@ -276,13 +275,13 @@ namespace BeaEngineCS
                 d.SecurityBlock = (uint)(EndCodeSection - d.InstructionPointer.ToUInt64());
 
                 d.Length = BeaEngine.Disassemble(ref d);
-                if (len == BeaEngine.OutOfBlock)
+                if (d.Length == BeaEngine.OutOfBlock)
                 {
                     Console.WriteLine("disasm engine is not allowed to read more memory.");
                     error = true;
                     return new List<_Disasm>();
                 }
-                else if (len == BeaEngine.UnknownOpcode)
+                else if (d.Length == BeaEngine.UnknownOpcode)
                 {
                     Console.WriteLine("unknown opcode");
                     error = true;
@@ -291,8 +290,8 @@ namespace BeaEngineCS
                 else
                 {
                     instructions.Add(d);
-                    d.InstructionPointer = d.InstructionPointer + len;
-                    d.VirtualAddr = d.VirtualAddr + (ulong)len;
+                    d.InstructionPointer = d.InstructionPointer + d.Length;
+                    d.VirtualAddr = d.VirtualAddr + (ulong)d.Length;
                     if (d.InstructionPointer.ToUInt64() >= EndCodeSection)
                     {
                         Console.WriteLine("End of buffer reache.!");
