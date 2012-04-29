@@ -251,8 +251,8 @@ namespace BeaEngineCS
 
         #region Methods
 
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int Disasm(ref _Disasm instruction);
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Disasm")]
+        public static extern int Disassemble(ref _Disasm instruction);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr BeaEngineVersion();
