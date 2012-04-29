@@ -57,9 +57,6 @@
     <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BeaEngineCS, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\plugins\beaengine-cs\BeaEngineCS\bin\$(PlatformTarget)\$(Configuration)\BeaEngineCS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,6 +72,12 @@
     <Compile Include="Disassembler.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="InstructionArgument.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\plugins\beaengine-cs\BeaEngineCS\BeaEngineCS.csproj">
+      <Project>{C8241D75-0AA1-419D-A423-175FB36E4E34}</Project>
+      <Name>BeaEngineCS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
