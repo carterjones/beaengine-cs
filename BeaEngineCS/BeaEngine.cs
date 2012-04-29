@@ -283,9 +283,9 @@ namespace BeaEngineCS
                 }
                 else if (d.Length == BeaEngine.UnknownOpcode)
                 {
-                    Console.WriteLine("unknown opcode");
-                    error = true;
-                    return new List<_Disasm>();
+                    instructions.Add(d);
+                    d.InstructionPointer = d.InstructionPointer + 1;
+                    d.VirtualAddr = d.VirtualAddr + 1;
                 }
                 else
                 {
