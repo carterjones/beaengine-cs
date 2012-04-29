@@ -76,9 +76,9 @@ namespace Tests
                 Console.Error.WriteLine("Unknown opcode.");
                 return false;
             }
-            else if (len == BeaEngine.OutOfRange)
+            else if (len == BeaEngine.OutOfBlock)
             {
-                Console.Error.WriteLine("Out of range.");
+                Console.Error.WriteLine("Out of block.");
                 return false;
             }
             else

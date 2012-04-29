@@ -33,7 +33,7 @@ namespace BeaEngineCS
         public const byte HighPosition = 1;
 
         public const int UnknownOpcode = -1;
-        public const int OutOfRange = 0;
+        public const int OutOfBlock = 0;
         public const int InstructionLength = 64;
 
 #if WIN64
