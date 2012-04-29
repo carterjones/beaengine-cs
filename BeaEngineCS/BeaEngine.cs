@@ -254,6 +254,56 @@ namespace BeaEngineCS
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Disasm")]
         public static extern int Disassemble(ref _Disasm instruction);
 
+        public static List<_Disasm> Disassemble(ref byte[] data, IntPtr address, Architecture architecture)
+        {
+            return BeaEngine.Disassemble(ref data, (UIntPtr)address.ToInt64(), architecture);
+        }
+
+        public static List<_Disasm> Disassemble(ref byte[] data, UIntPtr address, Architecture architecture)
+        {
+            int len = 0;
+            GCHandle h = GCHandle.Alloc(data, GCHandleType.Pinned);
+            UInt64 EndCodeSection = (UInt64)h.AddrOfPinnedObject().ToInt64() + (ulong)data.Length;
+
+            List<_Disasm> instructions = new List<_Disasm>();
+            _Disasm d = new _Disasm();
+            d.IP = (UIntPtr)h.AddrOfPinnedObject().ToInt64();
+            d.VirtualAddr = address.ToUInt64();
+            d.Architecture = architecture;
+            bool error = false;
+            while (!error)
+            {
+                d.SecurityBlock = (uint)(EndCodeSection - d.IP.ToUInt64());
+
+                d.Length = BeaEngine.Disassemble(ref d);
+                if (len == BeaEngine.OutOfBlock)
+                {
+                    Console.WriteLine("disasm engine is not allowed to read more memory.");
+                    error = true;
+                    return new List<_Disasm>();
+                }
+                else if (len == BeaEngine.UnknownOpcode)
+                {
+                    Console.WriteLine("unknown opcode");
+                    error = true;
+                    return new List<_Disasm>();
+                }
+                else
+                {
+                    instructions.Add(d);
+                    d.IP = d.IP + len;
+                    d.VirtualAddr = d.VirtualAddr + (ulong)len;
+                    if (d.IP.ToUInt64() >= EndCodeSection)
+                    {
+                        Console.WriteLine("End of buffer reache.!");
+                        error = true;
+                    }
+                }
+            }
+
+            return instructions;
+        }
+
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr BeaEngineVersion();
 
