@@ -78,11 +78,6 @@ namespace Bunseki
             this.stringRepresentation = inst.CompleteInstr;
             this.BranchTarget = (IntPtr)inst.Instruction.AddrValue;
             this.FlowType = Instruction.GetFlowControl(this.Mnemonic);
-            if (inst.Length == -1 || inst.Length == 0)
-            {
-                throw new ArgumentException("Invalid instruction. Length must be greater than 0.");
-            }
-
             this.NumBytes = (uint)inst.Length;
             this.Arg1 = new InstructionArgument(inst.Argument1);
             this.Arg2 = new InstructionArgument(inst.Argument2);
