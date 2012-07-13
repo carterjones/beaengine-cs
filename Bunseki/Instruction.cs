@@ -71,6 +71,10 @@ namespace Bunseki
         }
 
         public IntPtr Address { get; set; }
+        public string AddressAsString
+        {
+            get { return "0x" + this.Address.ToString("x").PadLeft(this.PointerWidth, '0'); }
+        }
         public string Mnemonic { get; private set; }
         public IntPtr BranchTarget { get; private set; }
         public ControlFlow FlowType { get; private set; }
@@ -78,6 +82,8 @@ namespace Bunseki
         public InstructionArgument Arg1 { get; private set; }
         public InstructionArgument Arg2 { get; private set; }
         public InstructionArgument Arg3 { get; private set; }
+        public string CompleteInstruction { get { return this.ToString(); } }
+        public ushort PointerWidth { get; set; }
 
         private Instruction()
         {
