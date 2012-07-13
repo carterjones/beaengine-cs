@@ -24,7 +24,7 @@ namespace Bunseki
             /// <summary>
             /// Indicates the instruction is one of: CALL, CALL FAR.
             /// </summary>
-            Call = 1,//
+            Call = 1,
 
             /// <summary>
             /// Indicates the instruction is one of: RET, IRET, RETF.
@@ -34,28 +34,28 @@ namespace Bunseki
             /// <summary>
             /// Indicates the instruction is one of: SYSCALL, SYSRET, SYSENTER, SYSEXIT.
             /// </summary>
-            SysX,//
+            SysX,
 
             /// <summary>
             /// Indicates the instruction is one of: JMP, JMP FAR.
             /// </summary>
-            UnconditionalBranch,//
+            UnconditionalBranch,
 
             /// <summary>
             /// Indicates the instruction is one of:
             /// JCXZ, JO, JNO, JB, JAE, JZ, JNZ, JBE, JA, JS, JNS, JP, JNP, JL, JGE, JLE, JG, LOOP, LOOPZ, LOOPNZ.
             /// </summary>
-            ConditionalBranch,//
+            ConditionalBranch,
 
             /// <summary>
             /// Indiciates the instruction is one of: INT, INT1, INT 3, INTO, UD2.
             /// </summary>
-            Interupt,//
+            Interupt,
 
             /// <summary>
             /// Indicates the instruction is one of: CMOVxx.
             /// </summary>
-            CMOVxx,//
+            CMOVxx,
         }
 
         public IntPtr Address { get; set; }
