@@ -3,12 +3,24 @@ namespace Bunseki
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using BeaEngineCS;
 
-    public class Instruction
+    public class Instruction : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
         private string stringRepresentation = string.Empty;
 
         /// <summary>
