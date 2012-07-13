@@ -279,7 +279,6 @@ namespace BeaEngineCS
                 {
                     Console.WriteLine("disasm engine is not allowed to read more memory.");
                     error = true;
-                    return new List<_Disasm>();
                 }
                 else if (d.Length == BeaEngine.UnknownOpcode)
                 {
