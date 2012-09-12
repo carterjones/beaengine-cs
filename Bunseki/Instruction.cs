@@ -102,6 +102,14 @@ namespace Bunseki
             this.Arg3 = new InstructionArgument(inst.Argument3);
         }
 
+        internal Instruction(Distorm3cs.Distorm.DInst inst)
+        {
+            this.Address = (IntPtr)inst.addr;
+            this.Mnemonic = inst.InstructionType.ToString().ToLower();
+
+            throw new NotImplementedException();
+        }
+
         private static ControlFlow GetFlowControl(string mnemonic)
         {
             string mnemonicLowercase = mnemonic.ToLower();
