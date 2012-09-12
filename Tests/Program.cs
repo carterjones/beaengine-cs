@@ -69,7 +69,7 @@ namespace Tests
             }
 
             BeaEngine._Disasm inst = new BeaEngine._Disasm();
-            inst.EIP = (UIntPtr)data.ToInt64();
+            inst.InstructionPointer = (UIntPtr)data.ToInt64();
             int len = BeaEngine.Disassemble(ref inst);
             if (len == BeaEngine.UnknownOpcode)
             {
