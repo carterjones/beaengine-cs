@@ -24,12 +24,12 @@ namespace Bunseki
 
         public InternalDisassembler Engine { get; set; }
 
-        public List<Instruction> DisassembleInstructions(byte[] data)
+        public IEnumerable<Instruction> DisassembleInstructions(byte[] data)
         {
             return this.DisassembleInstructions(data, IntPtr.Zero);
         }
 
-        public List<Instruction> DisassembleInstructions(byte[] data, IntPtr virtualAddress)
+        public IEnumerable<Instruction> DisassembleInstructions(byte[] data, IntPtr virtualAddress)
         {
             if (this.Engine == InternalDisassembler.BeaEngine)
             {
@@ -47,19 +47,14 @@ namespace Bunseki
                     architecture = BeaEngine.Architecture.x86_32;
                 }
 
-                List<BeaEngine._Disasm> beaInstructions =
-                    BeaEngine.Disassemble(ref data, virtualAddress, architecture);
-                List<Instruction> instructions = new List<Instruction>();
-                foreach (BeaEngine._Disasm inst in beaInstructions)
+                foreach (BeaEngine._Disasm inst in BeaEngine.Disassemble(data, virtualAddress, architecture))
                 {
-                    instructions.Add(new Instruction(inst));
+                    yield return new Instruction(inst);
                 }
-
-                return instructions;
             }
             else
             {
-                return new List<Instruction>();
+                yield break;
             }
         }
     }
