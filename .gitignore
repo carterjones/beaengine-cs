@@ -4,7 +4,4 @@
 !*.sln
 !*.csproj
 !Bunseki
-!plugins
-!plugins/beaengine-cs
-!plugins/distorm3cs
 !UNLICENSE
