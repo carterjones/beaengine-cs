@@ -1,7 +1,13 @@
 *
 !.gitignore
 !*.cs
-!*.sln
 !*.csproj
-!Bunseki
+!*.resx
+!*.settings
+!*.sln
+!*.vcxproj
+!BeaEngineCS
+!Tests
+!plugins
+!plugins/beaengine
 !UNLICENSE
