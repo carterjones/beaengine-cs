@@ -1,5 +1,4 @@
-﻿// This is free and unencumbered software released into the public domain.
-namespace Tests
+﻿namespace Tests
 {
     using System;
     using System.Collections.Generic;

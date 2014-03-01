@@ -1,5 +1,4 @@
-﻿// This is free and unencumbered software released into the public domain.
-namespace BeaEngineCS
+﻿namespace BeaEngineCS
 {
     using System;
     using System.Collections.Generic;
