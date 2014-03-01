@@ -1,0 +1,3 @@
+[submodule "plugins/beaengine"]
+	path = plugins/beaengine
+	url = git@gitlab.com:carterjones/beaengine-mirror.git
