@@ -56,7 +56,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BeaEngine.cs" />
+    <Compile Include="BeaEngine.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
